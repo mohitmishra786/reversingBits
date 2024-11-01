@@ -83,7 +83,7 @@ Welcome to the **Reversing Bits Cheatsheets** repository! This collection provid
 
 ## License
 
-This repository is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This repository is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
 
 ## Acknowledgements
 
