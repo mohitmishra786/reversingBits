@@ -1,0 +1,226 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reversing Bits</title>
+    <style>
+        /* Light mode colors */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --nav-bg: #f5f5f5;
+        }
+
+        /* Dark mode colors */
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --nav-bg: #2d2d2d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            padding-top: 60px;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            top: 20px;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--nav-bg);
+            padding: 10px;
+            border-radius: 8px;
+            z-index: 1000;
+        }
+
+        .nav-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+
+        #content {
+            margin-top: 20px;
+        }
+
+        .page-title {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 0.9em;
+            color: var(--text-color);
+        }
+
+        /* Add styles for links in the markdown content */
+        #content a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        #content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Style for code blocks */
+        pre {
+            background-color: var(--nav-bg);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-buttons">
+            <button id="prevBtn" class="nav-button">
+                ← <span id="prevTitle" class="page-title">Previous</span>
+            </button>
+            <button id="themeToggle" class="theme-toggle">🌞</button>
+            <button id="nextBtn" class="nav-button">
+                <span id="nextTitle" class="page-title">Next</span> →
+            </button>
+        </div>
+        <div id="content"></div>
+    </div>
+
+    <script>
+        // List of markdown files in order
+        const pages = [
+            'README.md',
+            'angr.md',
+            'bap.md',
+            'binaryninja.md',
+            'capstone.md',
+            'dyninst.md',
+            'file.md',
+            'freedom.md',
+            'frida.md',
+            'gas.md',
+            'gdb.md',
+            'ghidra.md',
+            'hexdump.md',
+            'hopper.md',
+            'idapro.md',
+            'intelXed.md',
+            'nasm.md',
+            'nm.md',
+            'objdump.md',
+            'ollydbg.md',
+            'pema.md',
+            'pin.md',
+            'qemu.md',
+            'radare2.md',
+            'readelf.md',
+            'retdec.md',
+            'rizin.md',
+            'spike.md',
+            'strings.md',
+            'valgrind.md',
+            'windbg.md',
+            'yara.md',
+            'zynamics.md'
+        ];
+
+        let currentPageIndex = 0;
+
+        // Theme toggling
+        const themeToggle = document.getElementById('themeToggle');
+        let isDarkMode = false;
+
+        themeToggle.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+            themeToggle.textContent = isDarkMode ? '🌜' : '🌞';
+        });
+
+        // Navigation functions
+        function updateNavButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const prevTitle = document.getElementById('prevTitle');
+            const nextTitle = document.getElementById('nextTitle');
+
+            prevBtn.style.visibility = currentPageIndex > 0 ? 'visible' : 'hidden';
+            nextBtn.style.visibility = currentPageIndex < pages.length - 1 ? 'visible' : 'hidden';
+
+            if (currentPageIndex > 0) {
+                prevTitle.textContent = pages[currentPageIndex - 1].replace('.md', '');
+            }
+            if (currentPageIndex < pages.length - 1) {
+                nextTitle.textContent = pages[currentPageIndex + 1].replace('.md', '');
+            }
+        }
+
+        async function loadPage(index) {
+            try {
+                const response = await fetch(pages[index]);
+                const text = await response.text();
+                document.getElementById('content').innerHTML = marked.parse(text);
+                currentPageIndex = index;
+                updateNavButtons();
+                window.scrollTo(0, 0);
+            } catch (error) {
+                console.error('Error loading page:', error);
+                document.getElementById('content').innerHTML = '<p>Error loading content. Please try again.</p>';
+            }
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentPageIndex > 0) {
+                loadPage(currentPageIndex - 1);
+            }
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentPageIndex < pages.length - 1) {
+                loadPage(currentPageIndex + 1);
+            }
+        });
+
+        // Initial load
+        loadPage(0);
+    </script>
+</body>
+</html>
