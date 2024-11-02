@@ -1,79 +1,49 @@
 # Reversing Bits Cheatsheets
 
-Welcome to the **Reversing Bits Cheatsheets** repository! This collection provides comprehensive guides on various tools essential for assembly programming and reverse engineering. Each cheatsheet offers installation instructions, usage examples, and advanced tips for different operating systems.
+Welcome to the **Reversing Bits Cheatsheets** repository! This collection provides comprehensive guides on various tools essential for assembly programming, reverse engineering, and binary analysis. Each cheatsheet offers installation instructions, usage examples, and advanced tips for different operating systems.
 
 ## Tools Included
 
-- **[NASM](#nasm)**
-- **[GAS](#gas)**
-- **[objdump](#objdump)**
-- **[GDB](#gdb)**
-- **[Radare2](#radare2)**
-- **[Ghidra](#ghidra)**
-- **[Hexdump](#hexdump)**
-- **[strings](#strings)**
-- **[file](#file)**
-- **[nm](#nm)**
-- **[readelf](#readelf)**
-- **[capstone](#capstone)**
-- **[IDA Pro](#ida-pro)**
-- **[BAP](#bap)**
+### Assembly & Basic Analysis
+- **[NASM](nasm.md)**: A popular assembler for the x86 and x86-64 architectures.
+- **[GAS](gas.md)**: GNU Assembler, part of the GNU Binutils project, used for assembling AT&T syntax assembly.
+- **[objdump](objdump.md)**: A powerful tool for displaying information about object files.
+- **[Hexdump](hexdump.md)**: Used to display or dump binary data in hexadecimal format.
+- **[strings](strings.md)**: Extracts printable strings from files, useful for quick analysis.
+- **[file](file.md)**: Determines file type by examining its contents.
+- **[nm](nm.md)**: Lists symbols from object files.
+- **[readelf](readelf.md)**: Displays information about ELF (Executable and Linkable Format) files.
 
-### NASM
-- **Description**: A popular assembler for the x86 and x86-64 architectures.
-- **[NASM Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/nasm.md)**
+### Debuggers & Dynamic Analysis
+- **[GDB](gdb.md)**: The GNU Debugger for debugging programs at the source or assembly level.
+- **[OllyDbg](ollydbg.md)**: A 32-bit assembler level debugger for Windows.
+- **[WinDbg](windbg.md)**: Microsoft's debugger for Windows applications.
+- **[QEMU](qemu.md)**: Emulator and virtualizer for cross-platform analysis.
+- **[Valgrind](valgrind.md)**: Tool suite for debugging and profiling Linux programs.
 
-### GAS
-- **Description**: GNU Assembler, part of the GNU Binutils project, used for assembling AT&T syntax assembly.
-- **[GAS Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/gas.md)**
+### Disassemblers & Decompilers
+- **[IDA Pro](idapro.md)**: Industry-standard disassembler and debugger.
+- **[Ghidra](ghidra.md)**: NSA's software reverse engineering suite.
+- **[Binary Ninja](binaryninja.md)**: Modern reverse engineering platform.
+- **[Hopper](hopper.md)**: Reverse engineering tool for macOS and Linux.
+- **[RetDec](retdec.md)**: Retargetable machine-code decompiler.
+- **[Radare2](radare2.md)**: Complete framework for reverse-engineering.
+- **[Rizin](rizin.md)**: Fork of radare2 with enhanced features.
 
-### objdump
-- **Description**: A powerful tool for displaying information about object files.
-- **[objdump Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/objdump.md)**
+### Binary Analysis Frameworks
+- **[Angr](angr.md)**: Python framework for binary analysis.
+- **[BAP](bap.md)**: Binary Analysis Platform for reverse engineering.
+- **[Capstone](capstone.md)**: Lightweight multi-architecture disassembly framework.
+- **[Dyninst](dyninst.md)**: Binary instrumentation and analysis library.
+- **[Frida](frida.md)**: Dynamic instrumentation toolkit.
+- **[PIN](pin.md)**: Intel's dynamic binary instrumentation framework.
 
-### GDB
-- **Description**: The GNU Debugger for debugging programs at the source or assembly level.
-- **[GDB Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/gdb.md)**
-
-### Radare2
-- **Description**: A complete framework for reverse-engineering and analyzing binaries.
-- **[Radare2 Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/radare2.md)**
-
-### Ghidra
-- **Description**: A software reverse engineering (SRE) suite developed by NSA's Research Directorate.
-- **[Ghidra Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/ghidra.md)**
-
-### Hexdump
-- **Description**: Used to display or dump binary data in hexadecimal format.
-- **[Hexdump Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/hexdump.md)**
-
-### strings
-- **Description**: Extracts printable strings from files, useful for quick analysis.
-- **[strings Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/strings.md)**
-
-### file
-- **Description**: Determines file type by examining its contents.
-- **[file Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/file.md)**
-
-### nm
-- **Description**: Lists symbols from object files.
-- **[nm Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/nm.md)**
-
-### readelf
-- **Description**: Displays information about ELF (Executable and Linkable Format) files.
-- **[readelf Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/readelf.md)**
-
-### capstone
-- **Description**: A lightweight multi-architecture disassembly framework.
-- **[capstone Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/capstone.md)**
-
-### IDA Pro
-- **Description**: A disassembler and debugger for analyzing binary code, with command-line functionality.
-- **[IDA Pro Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/idapro.md)**
-
-### BAP
-- **Description**: Binary Analysis Platform, a framework and toolchain for binary analysis and reverse engineering.
-- **[BAP Cheatsheet](https://github.com/mohitmishra786/reversingBits/blob/main/bap.md)**
+### Malware Analysis & Security
+- **[YARA](yara.md)**: Pattern matching tool for malware analysis.
+- **[Zynamics](zynamics.md)**: Binary difference analysis tools.
+- **[Intel XED](intelXed.md)**: X86 encoder decoder library.
+- **[Spike](spike.md)**: Network protocol fuzzer.
+- **[FrEEdom](freedom.md)**: Binary analysis framework.
 
 ## How to Use
 
