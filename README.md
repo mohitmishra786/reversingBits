@@ -22,6 +22,7 @@ Welcome to the **Reversing Bits Cheatsheets** repository! This collection provid
 - **[WinDbg](src/windbg.md)**: Microsoft's debugger for Windows applications.
 - **[QEMU](src/qemu.md)**: Emulator and virtualizer for cross-platform analysis.
 - **[Valgrind](src/valgrind.md)**: Tool suite for debugging and profiling Linux programs.
+- **[Unicorn](src/unicorn.md)**: Lightweight, multi-platform CPU emulator framework.
 
 ### Disassemblers & Decompilers
 - **[IDA Pro](src/idapro.md)**: Industry-standard disassembler and debugger.
@@ -46,18 +47,16 @@ Welcome to the **Reversing Bits Cheatsheets** repository! This collection provid
 - **[Intel XED](src/intelXed.md)**: X86 encoder decoder library.
 - **[Spike](src/spike.md)**: Network protocol fuzzer.
 - **[FrEEdom](src/freedom.md)**: Binary analysis framework.
+- **[Diaphora](src/diaphora.md)**: Advanced binary diffing tool for IDA Pro.
 
 ## How to Use
-
 - **Installation**: Follow the OS-specific instructions in each cheatsheet for tool installation.
 - **Usage**: Each file contains usage examples, common commands, and advanced tips.
 - **Contributing**: If you have improvements or additional tools to add, please fork the repository, make your changes, and submit a pull request.
 
 ## License
-
 This repository is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgements
-
 - Thanks to the developers and communities behind these tools for their invaluable resources.
 - Contributions are always appreciated! Check the [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute.
