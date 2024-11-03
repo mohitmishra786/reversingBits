@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,7 +86,6 @@
             color: var(--text-color);
         }
 
-        /* Add styles for links in the markdown content */
         #content a {
             color: #007bff;
             text-decoration: none;
@@ -97,7 +95,6 @@
             text-decoration: underline;
         }
 
-        /* Style for code blocks */
         pre {
             background-color: var(--nav-bg);
             padding: 15px;
@@ -126,41 +123,78 @@
     </div>
 
     <script>
+        // Tool titles mapping
+        const toolTitles = {
+            'README': 'Introduction',
+            'angr': 'Angr - Binary Analysis Framework',
+            'bap': 'BAP - Binary Analysis Platform',
+            'binaryninja': 'Binary Ninja',
+            'capstone': 'Capstone - Multi-Architecture Disassembly',
+            'dyninst': 'Dyninst - Binary Instrumentation',
+            'file': 'File Command',
+            'freedom': 'FrEEdom Binary Analysis',
+            'frida': 'Frida Dynamic Instrumentation',
+            'gas': 'GNU Assembler (GAS)',
+            'gdb': 'GDB Debugger',
+            'ghidra': 'Ghidra Reverse Engineering',
+            'hexdump': 'Hexdump Utility',
+            'hopper': 'Hopper Disassembler',
+            'idapro': 'IDA Pro',
+            'intelXed': 'Intel XED',
+            'nasm': 'NASM Assembler',
+            'nm': 'NM Symbol Listing',
+            'objdump': 'Objdump',
+            'ollydbg': 'OllyDbg Debugger',
+            'pema': 'PEMA Analysis',
+            'pin': 'Intel PIN',
+            'qemu': 'QEMU Emulator',
+            'radare2': 'Radare2',
+            'readelf': 'ReadELF',
+            'retdec': 'RetDec Decompiler',
+            'rizin': 'Rizin',
+            'spike': 'SPIKE Fuzzer',
+            'strings': 'Strings Utility',
+            'valgrind': 'Valgrind',
+            'windbg': 'WinDbg',
+            'yara': 'YARA Pattern Matching',
+            'zynamics': 'Zynamics'
+        };
+
         // List of markdown files in order
         const pages = [
             'README.md',
-            'angr.md',
-            'bap.md',
-            'binaryninja.md',
-            'capstone.md',
-            'dyninst.md',
-            'file.md',
-            'freedom.md',
-            'frida.md',
-            'gas.md',
-            'gdb.md',
-            'ghidra.md',
-            'hexdump.md',
-            'hopper.md',
-            'idapro.md',
-            'intelXed.md',
-            'nasm.md',
-            'nm.md',
-            'objdump.md',
-            'ollydbg.md',
-            'pema.md',
-            'pin.md',
-            'qemu.md',
-            'radare2.md',
-            'readelf.md',
-            'retdec.md',
-            'rizin.md',
-            'spike.md',
-            'strings.md',
-            'valgrind.md',
-            'windbg.md',
-            'yara.md',
-            'zynamics.md'
+            'src/angr.md',
+            'src/bap.md',
+            'src/binaryninja.md',
+            'src/capstone.md',
+            'src/dyninst.md',
+            'src/file.md',
+            'src/freedom.md',
+            'src/frida.md',
+            'src/gas.md',
+            'src/gdb.md',
+            'src/ghidra.md',
+            'src/hexdump.md',
+            'src/hopper.md',
+            'src/idapro.md',
+            'src/intelXed.md',
+            'src/nasm.md',
+            'src/nm.md',
+            'src/objdump.md',
+            'src/ollydbg.md',
+            'src/pema.md',
+            'src/pin.md',
+            'src/qemu.md',
+            'src/radare2.md',
+            'src/readelf.md',
+            'src/retdec.md',
+            'src/rizin.md',
+            'src/spike.md',
+            'src/strings.md',
+            'src/valgrind.md',
+            'src/windbg.md',
+            'src/yara.md',
+            'src/zynamics.md'
         ];
 
         let currentPageIndex = 0;
@@ -175,6 +209,12 @@
             themeToggle.textContent = isDarkMode ? '🌜' : '🌞';
         });
 
+        // Get the display title for a page
+        function getPageTitle(filename) {
+            const baseName = filename.replace('.md', '').replace('src/', '');
+            return toolTitles[baseName] || baseName;
+        }
+
         // Navigation functions
         function updateNavButtons() {
             const prevBtn = document.getElementById('prevBtn');
@@ -186,10 +226,10 @@
             nextBtn.style.visibility = currentPageIndex < pages.length - 1 ? 'visible' : 'hidden';
 
             if (currentPageIndex > 0) {
-                prevTitle.textContent = pages[currentPageIndex - 1].replace('.md', '');
+                prevTitle.textContent = getPageTitle(pages[currentPageIndex - 1]);
             }
             if (currentPageIndex < pages.length - 1) {
-                nextTitle.textContent = pages[currentPageIndex + 1].replace('.md', '');
+                nextTitle.textContent = getPageTitle(pages[currentPageIndex + 1]);
             }
         }
 
