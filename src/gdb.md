@@ -1,5 +1,26 @@
 # GDB (GNU Debugger) Cheatsheet
 
+## Table of Contents
+1. [Installation Instructions](#installation-instructions)
+2. [Program Execution Controls](#program-execution-controls)
+3. [Breakpoint Management](#breakpoint-management)
+4. [Watchpoint Operations](#watchpoint-operations)
+5. [Conditional Debugging](#conditional-debugging)
+6. [Stack Examination](#stack-examination)
+7. [Program Flow Control](#program-flow-control)
+8. [Variable and Memory Inspection](#variable-and-memory-inspection)
+9. [Thread Management](#thread-management)
+10. [Program Manipulation](#program-manipulation)
+11. [Source Code Navigation](#source-code-navigation)
+12. [Signal Handling](#signal-handling)
+13. [Debug Information](#debug-information)
+14. [Advanced Features](#advanced-features)
+15. [Reverse Debugging](#reverse-debugging)
+16. [Process Information](#process-information)
+17. [Convenience Features](#convenience-features)
+18. [Best Practices](#best-practices)
+19. [Common Issues and Solutions](#common-issues-and-solutions)
+
 ## Installation Instructions
 
 ### Windows
@@ -24,203 +45,146 @@ brew install gdb
 # Note: Additional signing steps required for macOS
 ```
 
-## Basic GDB Commands
+## Program Execution Controls
 
 ### Starting GDB
 
-1. **Launch GDB**
 ```bash
-gdb program
+# Basic GDB startup
+gdb <program>                  # Start GDB with a program
+gdb <program> [core dump]      # Start GDB with a core dump file
+gdb --args <program> <args...> # Start GDB with program arguments
+gdb --pid <pid>               # Attach GDB to a running process
+gdb -p <pid>                  # Alternative syntax for attaching to process
 ```
 
-2. **Attach to Running Process**
+### Program Control Commands
+
 ```bash
-gdb -p PID
+set args <args...>    # Set arguments for the program to be debugged
+run                   # Start program execution
+run arg1 arg2         # Run with specific arguments
+kill                  # Terminate the running program
+quit                  # Exit GDB
+attach <pid>         # Attach to a running process
+detach               # Detach from the current process
+continue (or c)      # Continue execution
 ```
 
-3. **Start with Arguments**
+## Breakpoint Management
+
+### Basic Breakpoint Operations
+
 ```bash
-gdb --args program arg1 arg2
+break <where>              # Set a new breakpoint
+b <where>                 # Short form for break
+delete <breakpoint#>       # Remove a specific breakpoint
+clear                      # Delete all breakpoints
+enable <breakpoint#>       # Enable a disabled breakpoint
+disable <breakpoint#>      # Disable a breakpoint
+info breakpoints          # List all breakpoints
+i b                       # Short form for info breakpoints
 ```
 
-### Running and Stopping
+### Breakpoint Locations (`<where>` can be)
 
-4. **Run Program**
-```gdb
-run
-run arg1 arg2
+```bash
+function_name              # Break at function entry
+line_number               # Break at specific line in current file
+file:line_number          # Break at specific line in named file
+*address                  # Break at specific memory address (e.g., *0x4004e7)
+class::method            # Break at class method (C++)
++offset                  # Break at offset lines from current
+-offset                  # Break at offset lines before current
 ```
 
-5. **Continue Execution**
-```gdb
-continue
-c
+## Watchpoint Operations
+
+### Basic Watchpoint Commands
+
+```bash
+watch <where>              # Set a new watchpoint
+rwatch <where>             # Set read watchpoint
+awatch <where>             # Set access watchpoint
+watch *0x4004e7           # Watch specific memory location
+watch expr                # Watch expression
+delete <watchpoint#>       # Remove a watchpoint
+enable <watchpoint#>       # Enable a disabled watchpoint
+disable <watchpoint#>      # Disable a watchpoint
+info watchpoints          # List all watchpoints
 ```
 
-6. **Step Into**
-```gdb
-step
-s
+## Stack Examination
+
+### Stack Navigation and Information
+
+```bash
+backtrace                 # Show call stack
+bt                        # Short form for backtrace
+where                     # Alias for backtrace
+backtrace full           # Show call stack with local variables
+where full               # Alias for backtrace full
+frame <frame#>           # Select stack frame to examine
+f <frame#>               # Short form for frame
+up                       # Move up one stack frame
+down                     # Move down one stack frame
+info frame              # Information about current frame
+info args               # Show function arguments
+info locals             # Show local variables
 ```
 
-7. **Step Over**
-```gdb
-next
-n
+## Program Flow Control
+
+### Execution Control
+
+```bash
+step (or s)              # Step into next instruction
+next (or n)              # Step over next instruction
+finish                   # Continue until current function returns
+continue (or c)         # Continue normal execution
+until <location>        # Continue until location
+advance <location>      # Continue until location
+return [expression]     # Force immediate return from function
 ```
 
-8. **Step Out**
-```gdb
-finish
-```
+## Variable and Memory Inspection
 
-### Breakpoints
+### Print Formats
 
-9. **Set Breakpoint at Function**
-```gdb
-break function_name
-b main
-```
-
-10. **Set Breakpoint at Line**
-```gdb
-break filename:linenum
-b 42
-```
-
-11. **Set Breakpoint at Address**
-```gdb
-break *0x4004e7
-```
-
-12. **List Breakpoints**
-```gdb
-info breakpoints
-i b
-```
-
-13. **Delete Breakpoint**
-```gdb
-delete 1
-d 1
-```
-
-14. **Enable/Disable Breakpoint**
-```gdb
-enable 1
-disable 1
+```bash
+print/[format] <what>    # Print variable/memory/register
+p <what>                # Short form for print
+display/[format] <what>  # Print value after each step
+display/i $pc           # Display instruction pointer
+undisplay <display#>     # Remove display
+enable display <display#> # Enable display
+disable display <display#> # Disable display
 ```
 
 ### Memory Examination
 
-15. **Examine Memory**
-```gdb
-x/nfu addr
-x/10x $rsp    # Show 10 hex words at stack pointer
-```
-
-16. **Print Variable**
-```gdb
-print variable
-p $rax
-```
-
-17. **Display Memory Change**
-```gdb
-display/i $pc
-```
-
-### Stack Navigation
-
-18. **Backtrace**
-```gdb
-backtrace
-bt
-```
-
-19. **Select Frame**
-```gdb
-frame n
-f n
-```
-
-20. **Show Arguments**
-```gdb
-info args
+```bash
+x/nfu <address>          # Examine memory
+x/10x $rsp              # Show 10 hex words at stack pointer
+p *array@length         # Print array contents
+x/s string_ptr         # Print string
+p *struct_ptr          # Print structure contents
 ```
 
 ### Register Operations
 
-21. **Show Registers**
-```gdb
-info registers
-i r
+```bash
+info registers         # Show all registers
+i r                    # Short form for info registers
+info registers rax    # Show specific register
+p $rax                # Print RAX register value
 ```
 
-22. **Show Specific Register**
-```gdb
-p $rax
-info registers rax
-```
+## Advanced Features
 
-### Data Display
+### Python Integration
 
-23. **Print Array**
-```gdb
-p *array@length
-```
-
-24. **Print String**
-```gdb
-x/s string_ptr
-```
-
-25. **Print Struct**
-```gdb
-p *struct_ptr
-```
-
-### Watchpoints
-
-26. **Watch Variable**
-```gdb
-watch variable
-```
-
-27. **Watch Memory Location**
-```gdb
-watch *0x4004e7
-```
-
-28. **Watch Expression**
-```gdb
-watch expr
-```
-
-### Source Code Navigation
-
-29. **List Source**
-```gdb
-list
-l
-```
-
-30. **List Function**
-```gdb
-list function_name
-```
-
-### Advanced Features
-
-31. **Define Command Alias**
-```gdb
-define mycommand
-commands
-end
-```
-
-32. **Python Scripting**
-```gdb
+```bash
 python
 def print_rax():
     rax = gdb.selected_frame().read_register("rax")
@@ -228,103 +192,118 @@ def print_rax():
 end
 ```
 
-33. **Remote Debugging**
-```gdb
-target remote localhost:1234
-```
+### Command Aliases and Scripts
 
-### Reverse Debugging
-
-34. **Record Execution**
-```gdb
-record
-```
-
-35. **Reverse Continue**
-```gdb
-reverse-continue
-rc
-```
-
-36. **Reverse Step**
-```gdb
-reverse-step
-rs
-```
-
-### Process Information
-
-37. **Show Loaded Libraries**
-```gdb
-info sharedlibrary
-```
-
-38. **Show Threads**
-```gdb
-info threads
-```
-
-39. **Switch Thread**
-```gdb
-thread thread_num
-```
-
-### Advanced Analysis
-
-40. **Disassemble Function**
-```gdb
-disassemble function_name
-```
-
-41. **Set Architecture**
-```gdb
-set architecture i386
-```
-
-42. **Memory Mapping**
-```gdb
-info proc mappings
-```
-
-### Convenience Variables
-
-43. **Last Value**
-```gdb
-print $
-```
-
-44. **Define Variable**
-```gdb
-set $count = 0
-```
-
-### File Operations
-
-45. **Load Symbols**
-```gdb
-symbol-file file
-```
-
-46. **Add Symbol File**
-```gdb
-add-symbol-file file address
-```
-
-## Advanced Usage Examples
-
-### Binary Analysis
-```gdb
-# Analyze function call
-catch syscall
+```bash
+# Define custom command
+define mycommand
 commands
-  print $rax
-  continue
+end
+
+# Create breakpoint commands
+break main
+commands
+    print argc
+    continue
 end
 ```
 
+### Remote Debugging
+
+```bash
+target remote host:port  # Connect to remote GDB server
+target remote localhost:1234  # Common local debugging setup
+set remotebaud baud    # Set remote baud rate
+set remotelogfile file # Set remote log file
+monitor cmd            # Send command to remote monitor
+```
+
+## Reverse Debugging
+
+```bash
+record                  # Start recording execution trace
+record stop            # Stop recording
+reverse-continue (rc)  # Continue backward
+reverse-step (rs)     # Step backward
+reverse-next          # Step over backward
+reverse-finish        # Run backward until function entry
+```
+
+## Process Information
+
+```bash
+info proc mappings     # Show memory map
+info sharedlibrary    # Show loaded shared libraries
+info threads         # List all threads
+thread <thread#>     # Switch to specified thread
+set follow-fork-mode child  # Follow child process on fork
+```
+
+## Best Practices
+
+### Performance Optimization
+
+```bash
+# Use hardware breakpoints
+hbreak <location>     # Set hardware breakpoint
+
+# Conditional breakpoints
+break main if argc > 1
+
+# Catchpoints for system calls
+catch syscall
+commands
+    print $rax
+    continue
+end
+```
+
+### Security Analysis
+
+```bash
+# Check ASLR status
+show disable-randomization
+
+# Handle signals
+handle SIGSEGV nostop noprint
+
+# Examine security features
+checksec
+```
+
+## Configuration Settings
+
+```bash
+# History
+set history save on
+set history filename ~/.gdb_history
+
+# Output formatting
+set print pretty on
+set print array on
+set print elements 0   # No limit on array elements
+
+# Custom prompt
+set prompt (gdb-custom) 
+```
+
+## Common Issues and Solutions
+
+### Symbol Loading Issues
+
+```bash
+# Load symbols
+symbol-file file
+add-symbol-file file address
+
+# Set system root for symbols
+set sysroot /path/to/sysroot
+```
+
 ### Memory Analysis
-```gdb
-# Find memory leaks
+
+```bash
+# Memory leak detection helper
 define leak_check
   set $start = 0
   while $start < 0x7fffffffffff
@@ -337,66 +316,35 @@ end
 ```
 
 ### Debugging Helpers
-```gdb
-# Print stack trace on segfault
+
+```bash
+# Automatic backtrace on segfault
 catch signal SIGSEGV
 commands
-  where
+    where
+    backtrace full
 end
 ```
 
-## Best Practices
+## Advanced Analysis
 
-### Performance Tips
-- Use hardware breakpoints for watching memory
-- Avoid excessive printing in loops
-- Use conditional breakpoints wisely
+```bash
+# Disassemble
+disassemble function_name
+disas function_name    # Short form
 
-### Security Analysis
-- Check for ASLR: `show disable-randomization`
-- Examine security mitigations
-- Use catchpoints for syscall analysis
+# Set architecture
+set architecture i386
 
-### Automation
-- Create .gdbinit file
-- Use Python scripts for complex analysis
-- Save common command sequences
-
-## Common Issues and Solutions
-
-### Memory Access
-```gdb
-# Handle invalid memory access
-handle SIGSEGV nostop noprint
+# Examine core dumps
+generate-core-file
+core-file corefile
 ```
 
-### Symbol Loading
-```gdb
-# Fix missing symbols
-set sysroot /path/to/sysroot
-```
+---
 
-### Multi-threaded Debugging
-```gdb
-# Follow fork mode
-set follow-fork-mode child
-```
+**Note**: This cheatsheet combines common GDB commands, advanced features, and best practices. For the most up-to-date and complete documentation, please check:
+- The GDB manual (use `help` command within GDB)
+- The official [GDB Documentation](https://sourceware.org/gdb/documentation/)
 
-## Advanced Configuration
-
-### Custom Prompt
-```gdb
-set prompt (gdb-custom) 
-```
-
-### History Settings
-```gdb
-set history save on
-set history filename ~/.gdb_history
-```
-
-### Pretty Printing
-```gdb
-set print pretty on
-set print array on
-```
+Compile programs with debugging information (`-g` flag) for optimal debugging experience.
