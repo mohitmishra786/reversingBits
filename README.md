@@ -68,6 +68,10 @@ Website: https://mohitmishra786.github.io/reversingBits/
 - [FrEEdom](src/freedom.md): Binary analysis framework.
 - [Diaphora](src/diaphora.md): Advanced binary diffing tool for IDA Pro.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=mohitmishra786/reversingBits&type=Date)](https://star-history.com/#mohitmishra786/reversingBits&Date)
+
 
 
 ## How to Use
