@@ -609,7 +609,10 @@
     
     <!-- GoatCounter Analytics -->
     <script data-goatcounter="https://reversingbits.goatcounter.com/count"
-            async src="//gc.zgo.at/count.js"></script>
+            data-goatcounter-settings='{"allow_local": true, "allow_frame": true}'
+            async src="//gc.zgo.at/count.js"
+            onload="console.log('GoatCounter script loaded successfully')"
+            onerror="console.error('GoatCounter script failed to load')"></script>
 </head>
 <body>
     <div class="container">
@@ -781,6 +784,36 @@
                 currentPageIndex = index;
                 updateNavButtons();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Track page view in GoatCounter for SPA navigation
+                setTimeout(() => {
+                    if (window.goatcounter && window.goatcounter.count) {
+                        const pageName = getPageTitle(pages[index]);
+                        const path = '/' + pages[index].replace('.md', '').replace('src/', '');
+                        
+                        console.log('Tracking GoatCounter page view:', { path, title: pageName });
+                        
+                        window.goatcounter.count({
+                            path: path,
+                            title: pageName,
+                            event: false
+                        });
+                    } else {
+                        console.log('GoatCounter not available:', { 
+                            goatcounter: !!window.goatcounter, 
+                            count: !!(window.goatcounter && window.goatcounter.count)
+                        });
+                        
+                        // Manual count by triggering a pixel request
+                        const img = new Image();
+                        const pageName = getPageTitle(pages[index]);
+                        const path = '/' + pages[index].replace('.md', '').replace('src/', '');
+                        const url = `https://reversingbits.goatcounter.com/count?p=${encodeURIComponent(path)}&t=${encodeURIComponent(pageName)}`;
+                        
+                        console.log('Manual GoatCounter tracking:', url);
+                        img.src = url;
+                    }
+                }, 100); // Small delay to ensure goatcounter is loaded
             } catch (error) {
                 console.error('Error loading page:', error);
                 const content = document.getElementById('content');
@@ -799,6 +832,46 @@
             if (currentPageIndex < pages.length - 1) {
                 loadPage(currentPageIndex + 1);
             }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentPageIndex > 0) {
+                loadPage(currentPageIndex - 1);
+            } else if (e.key === 'ArrowRight' && currentPageIndex < pages.length - 1) {
+                loadPage(currentPageIndex + 1);
+            }
+        });
+
+        // Manual GoatCounter test function (for debugging)
+        window.testGoatCounter = function() {
+            const path = '/test-' + Date.now();
+            const title = 'Manual Test';
+            
+            if (window.goatcounter && window.goatcounter.count) {
+                window.goatcounter.count({ path, title, event: false });
+                console.log('Manual test sent via goatcounter.count()');
+            } else {
+                const img = new Image();
+                const url = `https://reversingbits.goatcounter.com/count?p=${encodeURIComponent(path)}&t=${encodeURIComponent(title)}`;
+                img.src = url;
+                console.log('Manual test sent via pixel:', url);
+            }
+        };
+
+        // GoatCounter debugging function
+        function checkGoatCounter() {
+            console.log('GoatCounter status check:', {
+                goatcounter: !!window.goatcounter,
+                count: !!(window.goatcounter && window.goatcounter.count),
+                userAgent: navigator.userAgent,
+                currentURL: window.location.href
+            });
+        }
+
+        // Check GoatCounter availability on load
+        window.addEventListener('load', () => {
+            setTimeout(checkGoatCounter, 500);
         });
 
         // Initial load
