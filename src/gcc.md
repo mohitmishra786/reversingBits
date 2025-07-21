@@ -1,5 +1,4 @@
 # GCC Commands and Compiler Flags Reference
----
 
 ## General Compilation Flags
 
